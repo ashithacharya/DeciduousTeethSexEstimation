@@ -1,2 +1,26 @@
-# DeciduousTeethSexEstimation
-Machine learning vs logistic regression in sex estimation from deciduous dentition measurements.
+# Deciduous Teeth Sex Estimation
+
+## Purpose
+This project evaluates whether advanced machine learning algorithms outperform conventional logistic regression in sex estimation using calliper‑derived measurements of the deciduous dentition.
+
+We train and evaluate **10 supervised ML models** (Logistic Regression, Decision Tree, SVM, Gradient Boosting, Random Forest, AdaBoost, XGBoost, LightGBM, Extra Trees, CatBoost) against a logistic regression baseline.  
+Performance is assessed on an **independent held‑out test set** using classification and probability calibration metrics.
+
+---
+
+## Dataset
+- **Training set**: `Tooth_Dec_Dimensions_400.csv` (400 cases, Sex + tooth dimensions)  
+- **Test set**: `Tooth_Dec_Dimensions_100.csv` (100 cases, Sex + tooth dimensions)  
+- Target variable: `Sex` (0 = female, 1 = male)
+
+⚠️ Note: These datasets are anonymized and contain only numeric measurements.
+
+---
+
+## Installation
+Clone the repository and install dependencies:
+
+```bash
+git clone https://github.com/<your-username>/DeciduousTeethSexEstimation.git
+cd DeciduousTeethSexEstimation
+pip install -r requirements.txt
