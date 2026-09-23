@@ -24,3 +24,9 @@ Clone the repository and install dependencies:
 git clone https://github.com/<your-username>/DeciduousTeethSexEstimation.git
 cd DeciduousTeethSexEstimation
 pip install -r requirements.txt
+
+## Usage
+Run the training and evaluation script:
+
+```bash
+python src/train_and_evaluate.py
