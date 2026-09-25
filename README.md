@@ -53,3 +53,26 @@ Return to your repo’s main page — the README will now display the full table
 ---
 
 Once you do this, your repository will look complete and professional, with clear documentation of both your workflow and your results.
+---
+
+## Evaluation Results
+| Model | Accuracy | Precision (Macro) | Recall (Macro) | F1 Score (Macro) | ROC AUC |
+|-------|----------|-------------------|----------------|------------------|---------|
+| Gradient Boosting | 0.62 | 0.63 | 0.62 | 0.61 | 0.65 |
+| CatBoost | 0.60 | 0.61 | 0.60 | 0.59 | 0.66 |
+| Extra Trees | 0.59 | 0.59 | 0.59 | 0.59 | 0.66 |
+| Random Forest | 0.57 | 0.57 | 0.57 | 0.57 | 0.63 |
+| LightGBM | 0.56 | 0.56 | 0.56 | 0.56 | 0.67 |
+| SVM | 0.55 | 0.55 | 0.55 | 0.54 | 0.58 |
+| AdaBoost | 0.55 | 0.56 | 0.55 | 0.53 | 0.64 |
+| XGBoost | 0.55 | 0.55 | 0.55 | 0.54 | 0.58 |
+| Decision Tree | 0.54 | 0.54 | 0.54 | 0.54 | 0.53 |
+| Logistic Regression | 0.54 | 0.54 | 0.54 | 0.54 | 0.60 |
+
+---
+
+## Summary of Findings
+- **Gradient Boosting** achieved the highest accuracy (0.62).  
+- **CatBoost** and **Extra Trees** were competitive with strong ROC AUC (~0.66).  
+- Simpler models like **Logistic Regression** and **Decision Tree** had lower performance but remain interpretable.  
+- Ensemble methods generally outperformed linear models, confirming their advantage for this dataset.
