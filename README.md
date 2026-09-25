@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10.5281/zenodo.22954841.svg)](https://doi.org/10.5281/zenodo.10.5281/zenodo.22954841)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22954841.svg)](https://doi.org/10.5281/zenodo.22954841)
 # Deciduous Teeth Sex Estimation
 
 ## Purpose
