@@ -55,3 +55,5 @@ python src/train_and_evaluate.py
 - **CatBoost** and **Extra Trees** were competitive with strong ROC AUC (~0.66).  
 - Simpler models like **Logistic Regression** and **Decision Tree** had lower performance but remain interpretable.  
 - Ensemble methods generally outperformed linear models, confirming their advantage for this dataset.
+## Additional Resources
+[Stepwise Feature Selection Script](src/stepwise_feature_selection.py)
