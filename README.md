@@ -3,7 +3,7 @@
 ## Purpose
 This project evaluates whether advanced machine learning algorithms outperform conventional logistic regression in sex estimation using calliper‑derived measurements of the deciduous dentition.
 
-We train and evaluate **10 supervised ML models** (Logistic Regression, Decision Tree, SVM, Gradient Boosting, Random Forest, AdaBoost, XGBoost, LightGBM, Extra Trees, CatBoost) against a logistic regression baseline.  
+We train and evaluate **9 supervised ML models** (Decision Tree, SVM, Gradient Boosting, Random Forest, AdaBoost, XGBoost, LightGBM, Extra Trees, CatBoost) against a logistic regression baseline.  
 Performance is assessed on an **independent held‑out test set** using classification and probability calibration metrics.
 
 ---
@@ -31,30 +31,9 @@ Run the training and evaluation script:
 ```bash
 python src/train_and_evaluate.py
 ---
-
-## Model Training
-Run the training and evaluation script:
-
-```bash
-python src/train_and_evaluate.py
-
 ---
-
-#### 3️⃣ Commit your changes
-- Scroll down to **Commit changes**.  
-- Add a message like:  
-- Click **Commit changes**.
-
 ---
-
-#### 4️⃣ Verify
-Return to your repo’s main page — the README will now display the full table and summary directly below your existing sections.
-
 ---
-
-Once you do this, your repository will look complete and professional, with clear documentation of both your workflow and your results.
----
-
 ## Evaluation Results
 | Model | Accuracy | Precision (Macro) | Recall (Macro) | F1 Score (Macro) | ROC AUC |
 |-------|----------|-------------------|----------------|------------------|---------|
