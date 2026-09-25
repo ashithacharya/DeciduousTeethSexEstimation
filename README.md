@@ -30,3 +30,26 @@ Run the training and evaluation script:
 
 ```bash
 python src/train_and_evaluate.py
+---
+
+## Model Training
+Run the training and evaluation script:
+
+```bash
+python src/train_and_evaluate.py
+
+---
+
+#### 3️⃣ Commit your changes
+- Scroll down to **Commit changes**.  
+- Add a message like:  
+- Click **Commit changes**.
+
+---
+
+#### 4️⃣ Verify
+Return to your repo’s main page — the README will now display the full table and summary directly below your existing sections.
+
+---
+
+Once you do this, your repository will look complete and professional, with clear documentation of both your workflow and your results.
