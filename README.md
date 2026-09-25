@@ -57,3 +57,9 @@ python src/train_and_evaluate.py
 - Ensemble methods generally outperformed linear models, confirming their advantage for this dataset.
 ## Additional Resources
 [Stepwise Feature Selection Script](src/stepwise_feature_selection.py)
+---
+
+## Citation
+If you use this repository, please cite:
+
+Acharya, A. B. (2026). *Deciduous Teeth Sex Estimation* [Computer software]. GitHub. https://github.com/ashithacharya/DeciduousTeethSexEstimation
