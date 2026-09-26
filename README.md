@@ -4,7 +4,7 @@
 ## Purpose
 This project evaluates whether advanced machine learning algorithms outperform conventional logistic regression in sex estimation using calliper‑derived measurements of the deciduous dentition.
 
-We train and evaluate **9 supervised ML models** (Decision Tree, SVM, Gradient Boosting, Random Forest, AdaBoost, XGBoost, LightGBM, Extra Trees, CatBoost) against a logistic regression baseline.  
+We trained and evaluated **9 supervised ML models** (Decision Tree, SVM, Gradient Boosting, Random Forest, AdaBoost, XGBoost, LightGBM, Extra Trees, CatBoost) against a logistic regression baseline.  
 Performance is assessed on an **independent held‑out test set** using classification and probability calibration metrics.
 
 ---
