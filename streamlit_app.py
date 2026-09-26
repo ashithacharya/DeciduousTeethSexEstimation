@@ -6,7 +6,14 @@ import joblib
 # In a real Streamlit app, these files would be in the same directory
 # or accessible via a defined path.
 model = joblib.load('gradient_boosting_model.pkl') # Assuming model is saved in /content/
-feature_names = ['51MD', '51BL', '52MD', '52BL'] # Placeholder: Replace with actual feature names if available or load dynamically
+feature_names = [
+    '51MD', '51BL', '52MD', '52BL', '53MD', '53BL', '54MD', '54BL',
+    '55MD', '55BL', '61MD', '61BL', '62MD', '62BL', '63MD', '63BL',
+    '64MD', '64BL', '65MD', '65BL', '71MD', '71BL', '72MD', '72BL',
+    '73MD', '73BL', '74MD', '74BL', '75MD', '75BL', '81MD', '81BL',
+    '82MD', '82BL', '83MD', '83BL', '84MD', '84BL', '85MD', '85BL'
+]
+ # Placeholder: Replace with actual feature names if available or load dynamically
 
 # --- 2. Define the prediction function ---
 def predict_individual_sex(model, individual_features_df):
