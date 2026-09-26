@@ -60,22 +60,3 @@ st.markdown("""
 3. Navigate to that directory.
 4. Run the command: `streamlit run streamlit_app.py`
 """)
-import snowflake.connector
-
-# Connect to Snowflake using Streamlit secrets
-conn = snowflake.connector.connect(
-    user=st.secrets["snowflake"]["user"],
-    password=st.secrets["snowflake"]["password"],
-    account=st.secrets["snowflake"]["account"],
-    warehouse=st.secrets["snowflake"]["warehouse"],
-    database=st.secrets["snowflake"]["database"],
-    schema=st.secrets["snowflake"]["schema"]
-)
-
-# Example query to verify connection
-cursor = conn.cursor()
-cursor.execute("SELECT CURRENT_TIMESTAMP();")
-st.write("Connected to Snowflake at:", cursor.fetchone())
-
-cursor.close()
-conn.close()
