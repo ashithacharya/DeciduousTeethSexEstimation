@@ -46,7 +46,24 @@ for i, feature in enumerate(feature_names):
             value=float(default_values[feature]),
             format='%.2f',
             key=f'input_{feature}' # Unique key for each widget
-        )
+        ) 
+uploaded_file = st.file_uploader("Upload a CSV file with tooth dimensions", type=["csv"])
+
+if uploaded_file is not None:
+    data = pd.read_csv(uploaded_file)
+    X_input = data[feature_names]
+    prediction = model.predict(X_input)
+    probability = model.predict_proba(X_input)
+
+    st.write("Predicted Sex (0=Female, 1=Male):")
+    st.write(prediction)
+
+    st.write("Prediction Probability:")
+    st.write(probability)
+
+    certainty = np.max(probability, axis=1)
+    st.write("Certainty (%):")
+    st.write(certainty * 100)
 
 # Convert input data to a Pandas DataFrame
 individual_df = pd.DataFrame([input_data])
