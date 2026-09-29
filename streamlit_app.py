@@ -56,16 +56,12 @@ if uploaded_file is not None:
     prediction = model.predict(X_input)
     probability = model.predict_proba(X_input)
 
-    st.write("Predicted Sex (0=Female, 1=Male):")
-    st.write(prediction)
-
     prob_df = pd.DataFrame(probability * 100, columns=["Female (%)", "Male (%)"])
-st.write("Prediction Probability:")
-st.dataframe(prob_df.round(2))
+    st.write("Prediction Probability:")
+    st.dataframe(prob_df.round(2))
 
     # Calculate certainty before using it
     certainty = np.max(probability, axis=1)
-
     st.write("Certainty:")
     for c in certainty:
         st.progress(int(c * 100))
