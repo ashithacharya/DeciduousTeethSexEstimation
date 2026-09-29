@@ -61,10 +61,12 @@ if uploaded_file is not None:
     st.write("Prediction Probability:")
     st.write(probability)
 
+    # Calculate certainty before using it
     certainty = np.max(probability, axis=1)
+
     st.write("Certainty:")
-for c in certainty:
-    st.progress(int(c * 100))
+    for c in certainty:
+        st.progress(int(c * 100))
 
 # Convert input data to a Pandas DataFrame
 individual_df = pd.DataFrame([input_data])
