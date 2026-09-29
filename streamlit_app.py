@@ -62,11 +62,18 @@ if uploaded_file is not None:
     st.dataframe(prob_df.round(2))
 
 
-    # Calculate certainty before using it
-    certainty = np.max(probability, axis=1)
     st.write("Certainty:")
-    for c in certainty:
-        st.progress(int(c * 100))
+st.markdown(
+    """
+    <div style='display:flex; justify-content:space-between; font-size:14px;'>
+        <span>0%</span><span>100%</span>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+for c in certainty:
+    st.progress(int(c * 100))
+
 
 # Convert input data to a Pandas DataFrame
 individual_df = pd.DataFrame([input_data])
