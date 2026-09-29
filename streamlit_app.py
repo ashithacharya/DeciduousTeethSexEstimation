@@ -59,8 +59,9 @@ if uploaded_file is not None:
     st.write("Predicted Sex (0=Female, 1=Male):")
     st.write(prediction)
 
-    st.write("Prediction Probability:")
-    st.write(probability)
+    prob_df = pd.DataFrame(probability * 100, columns=["Female (%)", "Male (%)"])
+st.write("Prediction Probability:")
+st.dataframe(prob_df.round(2))
 
     # Calculate certainty before using it
     certainty = np.max(probability, axis=1)
