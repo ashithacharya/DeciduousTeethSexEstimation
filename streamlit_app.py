@@ -57,8 +57,10 @@ if uploaded_file is not None:
     probability = model.predict_proba(X_input)
 
     prob_df = pd.DataFrame(probability * 100, columns=["Female (%)", "Male (%)"])
+    prob_df.index = [""]  # hides the row index
     st.write("Prediction Probability:")
     st.dataframe(prob_df.round(2))
+
 
     # Calculate certainty before using it
     certainty = np.max(probability, axis=1)
