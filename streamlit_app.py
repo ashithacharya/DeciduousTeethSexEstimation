@@ -8,20 +8,27 @@ import joblib
 # In a real Streamlit app, these files would be in the same directory
 # or accessible via a defined path.
 # --- Model selection ---
+import requests
+import io
+
+@st.cache_resource
+def load_model_from_github(url):
+    response = requests.get(url)
+    return joblib.load(io.BytesIO(response.content))
+
 model_choice = st.selectbox(
     "Choose a model for sex estimation:",
     ["Gradient Boosting", "LightGBM", "CatBoost", "Extra Trees"]
 )
 
-# Load the chosen model
-if model_choice == "Gradient Boosting":
-    model = joblib.load("gradient_boosting_model.pkl")
-elif model_choice == "LightGBM":
-    model = joblib.load("lightgbm_model.pkl")
-elif model_choice == "CatBoost":
-    model = joblib.load("catboost_model.pkl")
-else:
-    model = joblib.load("extra_trees_model.pkl")
+model_urls = {
+    "Gradient Boosting": "https://raw.githubusercontent.com/ashithacharya/DeciduousTeethSexEstimation/main/gradient_boosting_model.pkl",
+    "LightGBM": "https://raw.githubusercontent.com/ashithacharya/DeciduousTeethSexEstimation/main/lightgbm_model.pkl",
+    "CatBoost": "https://raw.githubusercontent.com/ashithacharya/DeciduousTeethSexEstimation/main/catboost_model.pkl",
+    "Extra Trees": "https://raw.githubusercontent.com/ashithacharya/DeciduousTeethSexEstimation/main/extra_trees_model.pkl"
+}
+
+model = load_model_from_github(model_urls[model_choice])
 
 # Assuming model is saved in /content/
 feature_names = [
