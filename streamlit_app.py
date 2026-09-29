@@ -77,11 +77,3 @@ if st.button('Predict Sex'):
     st.write(f"**Predicted Sex:** {'Male' if predicted_sex == 1 else 'Female'}")
     st.write(f"**Probability of being Male:** {prob_male:.4f}")
     st.write(f"**Probability of being Female:** {1 - prob_male:.4f}")
-
-st.markdown("""
-**How to run this app:**
-1. Save the above code as `streamlit_app.py` in the same directory as `best_sex_estimation_model.joblib` and `feature_names.joblib`.
-2. Open your terminal or command prompt.
-3. Navigate to that directory.
-4. Run the command: `streamlit run streamlit_app.py`
-""")
