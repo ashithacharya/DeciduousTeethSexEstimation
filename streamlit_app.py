@@ -7,7 +7,23 @@ import joblib
 # --- 1. Load the trained model and feature names ---
 # In a real Streamlit app, these files would be in the same directory
 # or accessible via a defined path.
-model = joblib.load('gradient_boosting_model.pkl') # Assuming model is saved in /content/
+# --- Model selection ---
+model_choice = st.selectbox(
+    "Choose a model for sex estimation:",
+    ["Gradient Boosting", "LightGBM", "CatBoost", "Extra Trees"]
+)
+
+# Load the chosen model
+if model_choice == "Gradient Boosting":
+    model = joblib.load("gradient_boosting_model.pkl")
+elif model_choice == "LightGBM":
+    model = joblib.load("lightgbm_model.pkl")
+elif model_choice == "CatBoost":
+    model = joblib.load("catboost_model.pkl")
+else:
+    model = joblib.load("extra_trees_model.pkl")
+
+# Assuming model is saved in /content/
 feature_names = [
     '51MD', '51BL', '52MD', '52BL', '53MD', '53BL', '54MD', '54BL',
     '55MD', '55BL', '61MD', '61BL', '62MD', '62BL', '63MD', '63BL',
