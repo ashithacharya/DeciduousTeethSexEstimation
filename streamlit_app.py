@@ -100,59 +100,26 @@ for i, feature in enumerate(feature_names):
             key=f'input_{feature}'
         )
 
-uploaded_file = st.file_uploader("Upload a CSV file with tooth dimensions", type=["csv"])
-
-# --- CSV upload prediction ---
-if uploaded_file is not None:
-    data = pd.read_csv(uploaded_file)
-    X_input = data[feature_names]
-
-    prediction = model.predict(X_input)
-    probability = model.predict_proba(X_input)
-
-    st.subheader("CSV Prediction Results")
-
-    # Build probability DataFrame
-    prob_df = pd.DataFrame(probability * 100, columns=["Female (%)", "Male (%)"])
-    prob_df.index = [""]  # hides the row index
-
-    # Round to 1 decimal and center align headers + values
-    styled_prob_df = prob_df.round(1).style.set_properties(**{
-        'text-align': 'center'
-    }).set_table_styles([{
-        'selector': 'th',
-        'props': [('text-align', 'center')]
-    }])
-
-    st.write("Prediction Probability:")
-    st.write(styled_prob_df)
-
-    certainty = np.max(probability, axis=1)
-    st.write("Certainty:")
-    for c in certainty:
-        st.progress(int(c * 100))
-
-else:
-    # --- Manual input prediction ---
-    individual_df = pd.DataFrame([input_data])
-
-    if st.button('Predict Sex', key='manual_predict'):
-        prediction = model.predict(individual_df)
-        probability = model.predict_proba(individual_df)
-
-        predicted_sex = prediction[0]
-        prob_male = probability[0][1]
-        prob_female = probability[0][0]
-
-        st.subheader('Prediction Results:')
-        st.write(f"**Predicted Sex:** {'Male' if predicted_sex == 1 else 'Female'}")
-        st.write(f"**Probability of being Male:** {prob_male:.2f}")
-        st.write(f"**Probability of being Female:** {prob_female:.2f}")
-
 # --- Manual input prediction ---
+st.markdown("**Enter the tooth dimensions below to estimate sex.**")
+
+default_values = {feature: 0.0 for feature in feature_names}
+input_data = {}
+
+cols = st.columns(4)
+for i, feature in enumerate(feature_names):
+    with cols[i % 4]:
+        input_data[feature] = st.number_input(
+            f'{feature}',
+            value=float(default_values[feature]),
+            format='%.2f',
+            key=f'input_{feature}'
+        )
+
 individual_df = pd.DataFrame([input_data])
 
-if st.button('Predict Sex'):
+# Manual input prediction button
+if st.button('Predict Sex (Manual Input)', key='manual_predict'):
     prediction = model.predict(individual_df)
     probability = model.predict_proba(individual_df)
 
@@ -160,7 +127,40 @@ if st.button('Predict Sex'):
     prob_male = probability[0][1]
     prob_female = probability[0][0]
 
-    st.subheader('Prediction Results:')
+    st.subheader('Prediction Results (Manual Input):')
     st.write(f"**Predicted Sex:** {'Male' if predicted_sex == 1 else 'Female'}")
-    st.write(f"**Probability of being Male:** {prob_male:.4f}")
-    st.write(f"**Probability of being Female:** {prob_female:.4f}")
+    st.write(f"**Probability of being Male:** {prob_male:.2f}")
+    st.write(f"**Probability of being Female:** {prob_female:.2f}")
+
+# --- CSV upload prediction ---
+st.markdown("**Alternatively, upload a CSV file with tooth dimensions.**")
+uploaded_file = st.file_uploader("Upload a CSV file", type=["csv"])
+
+if uploaded_file is not None:
+    data = pd.read_csv(uploaded_file)
+    X_input = data[feature_names]
+
+    # CSV prediction button
+    if st.button('Predict Sex (CSV Upload)', key='csv_predict'):
+        prediction = model.predict(X_input)
+        probability = model.predict_proba(X_input)
+
+        st.subheader("CSV Prediction Results")
+
+        prob_df = pd.DataFrame(probability * 100, columns=["Female (%)", "Male (%)"])
+        prob_df.index = [""]
+
+        styled_prob_df = prob_df.round(1).style.set_properties(**{
+            'text-align': 'center'
+        }).set_table_styles([{
+            'selector': 'th',
+            'props': [('text-align', 'center')]
+        }])
+
+        st.write("Prediction Probability:")
+        st.write(styled_prob_df)
+
+        certainty = np.max(probability, axis=1)
+        st.write("Certainty:")
+        for c in certainty:
+            st.progress(int(c * 100))
