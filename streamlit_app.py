@@ -115,7 +115,8 @@ uploaded_file = st.file_uploader("Upload a CSV file with tooth dimensions", type
 if uploaded_file is not None:
     data = pd.read_csv(uploaded_file)
     X_input = data[feature_names]
-    prediction = model.predict(individual_df)
+    X_input = data[feature_names]
+    prediction = model.predict(X_input)
     probability = model.predict_proba(X_input)
 
     prob_df = pd.DataFrame(probability * 100, columns=["Female (%)", "Male (%)"])
