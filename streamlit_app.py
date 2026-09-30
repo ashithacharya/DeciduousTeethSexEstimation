@@ -116,8 +116,8 @@ if uploaded_file is not None:
     prob_df = pd.DataFrame(probability * 100, columns=["Female (%)", "Male (%)"])
     prob_df.index = [""]  # hides the row index
 
-    # Center align headers and values
-    styled_prob_df = prob_df.round(2).style.set_properties(**{
+    # Round to 1 decimal and center align headers + values
+    styled_prob_df = prob_df.round(1).style.set_properties(**{
         'text-align': 'center'
     }).set_table_styles([{
         'selector': 'th',
@@ -131,7 +131,6 @@ if uploaded_file is not None:
     st.write("Certainty:")
     for c in certainty:
         st.progress(int(c * 100))
-
 
 # --- Manual input prediction ---
 individual_df = pd.DataFrame([input_data])
