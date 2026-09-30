@@ -125,7 +125,7 @@ if uploaded_file is not None:
     }])
 
     st.write("Prediction Probability:")
-    st.dataframe(styled_prob_df)
+    st.write(styled_prob_df)  # use st.write instead of st.dataframe
 
     certainty = np.max(probability, axis=1)
     st.write("Certainty:")
