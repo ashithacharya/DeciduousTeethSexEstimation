@@ -125,7 +125,7 @@ if uploaded_file is not None:
     }])
 
     st.write("Prediction Probability:")
-    st.write(styled_prob_df)  # use st.write instead of st.dataframe
+    st.write(styled_prob_df)
 
     certainty = np.max(probability, axis=1)
     st.write("Certainty:")
@@ -136,7 +136,7 @@ else:
     # --- Manual input prediction ---
     individual_df = pd.DataFrame([input_data])
 
-    if st.button('Predict Sex (Manual Input)'):
+    if st.button('Predict Sex', key='manual_predict'):
         prediction = model.predict(individual_df)
         probability = model.predict_proba(individual_df)
 
