@@ -136,7 +136,7 @@ else:
     # --- Manual input prediction ---
     individual_df = pd.DataFrame([input_data])
 
-    if st.button('Predict Sex'):
+    if st.button('Predict Sex (Manual Input)'):
         prediction = model.predict(individual_df)
         probability = model.predict_proba(individual_df)
 
