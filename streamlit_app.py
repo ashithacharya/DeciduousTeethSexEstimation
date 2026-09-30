@@ -148,3 +148,31 @@ if uploaded_file is not None:
         st.write("Certainty:")
         for c in certainty:
             st.progress(int(c * 100))
+
+# --- Demo dataset prediction ---
+@st.cache_data
+def load_subset_dataset():
+    url = "https://raw.githubusercontent.com/ashithacharya/DeciduousTeethSexEstimation/main/Tooth_Dec_Dimensions_100.csv"
+    df = pd.read_csv(url)
+    males = df[df["Sex"] == 1].head(10)
+    females = df[df["Sex"] == 0].head(10)
+    return pd.concat([males, females])
+
+st.markdown("**Or try the demo dataset (20 subjects: 10 males, 10 females).**")
+if st.button("Run Predictions on Demo Dataset", key="demo_predict"):
+    demo_data = load_subset_dataset()
+    X_input = demo_data[feature_names]
+    y_true = demo_data["Sex"]
+
+    prediction = model.predict(X_input)
+    probability = model.predict_proba(X_input)
+
+    st.subheader("Demo Dataset Prediction Results")
+    results_df = pd.DataFrame({
+        "True Sex": ["Female" if s == 0 else "Male" for s in y_true],
+        "Predicted Sex": ["Female" if p == 0 else "Male" for p in prediction],
+        "Prob Male (%)": (probability[:,1] * 100).round(1),
+        "Prob Female (%)": (probability[:,0] * 100).round(1)
+    })
+
+    st.dataframe(results_df)
