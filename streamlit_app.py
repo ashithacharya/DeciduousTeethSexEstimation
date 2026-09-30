@@ -115,17 +115,22 @@ uploaded_file = st.file_uploader("Upload a CSV file with tooth dimensions", type
 if uploaded_file is not None:
     data = pd.read_csv(uploaded_file)
     X_input = data[feature_names]
-    X_input = data[feature_names]
-    prediction = model.predict(X_input)
-    probability = model.predict_proba(X_input)
 
+    st.subheader("Predictions from all models (CSV upload)")
+
+    results = {}
+    for name, model in models.items():
+        prediction = model.predict(X_input)
+        results[name] = ["Female" if p == 0 else "Male" for p in prediction]
+
+    # Show predictions for each row in the CSV
+    st.dataframe(pd.DataFrame(results))
+
+    # Optional: show probabilities for one model (e.g., Gradient Boosting)
+    probability = models["Gradient Boosting"].predict_proba(X_input)
     prob_df = pd.DataFrame(probability * 100, columns=["Female (%)", "Male (%)"])
-    prob_df.index = [""]  # hides the row index
-    st.write("Prediction Probability:")
+    st.write("Prediction Probability (Gradient Boosting):")
     st.dataframe(prob_df.round(2))
-
-    # Calculate certainty before using it
-    certainty = np.max(probability, axis=1)
 
     st.write("Certainty:")
     st.markdown(
