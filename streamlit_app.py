@@ -1,6 +1,11 @@
 # Trigger rebuild
 import numpy as np
 import streamlit as st
+import pandas as pd
+import joblib
+import requests
+import io
+
 # Title
 st.title("Deciduous/Primary Tooth Dimension Based Sex Estimation")
 
@@ -43,23 +48,12 @@ The models are specific to an Indian dataset (Southwestern Indian population of 
 They have not been validated in other populations, and results should be interpreted with caution outside this demographic context.
 """)
 
-import pandas as pd
-import joblib
-
-# --- 1. Load the trained model and feature names ---
-# In a real Streamlit app, these files would be in the same directory
-# or accessible via a defined path.
 # --- Model selection ---
-import requests
-import io
-import joblib
-
 @st.cache_resource
 def load_model_from_github(url):
     response = requests.get(url)
     return joblib.load(io.BytesIO(response.content))
 
-# Dictionary of all models
 model_urls = {
     "Gradient Boosting": "https://raw.githubusercontent.com/ashithacharya/DeciduousTeethSexEstimation/main/gradient_boosting_model.pkl",
     "LightGBM": "https://raw.githubusercontent.com/ashithacharya/DeciduousTeethSexEstimation/main/lightgbm_model.pkl",
@@ -67,10 +61,14 @@ model_urls = {
     "Extra Trees": "https://raw.githubusercontent.com/ashithacharya/DeciduousTeethSexEstimation/main/extra_trees_model.pkl"
 }
 
-# Load all models once
-models = {name: load_model_from_github(url) for name, url in model_urls.items()}
+# Dropdown for selecting one model
+model_choice = st.selectbox(
+    "Choose a model for sex estimation:",
+    list(model_urls.keys())
+)
+model = load_model_from_github(model_urls[model_choice])
 
-# Assuming model is saved in /content/
+# --- Feature names ---
 feature_names = [
     '51MD', '51BL', '52MD', '52BL', '53MD', '53BL', '54MD', '54BL',
     '55MD', '55BL', '61MD', '61BL', '62MD', '62BL', '63MD', '63BL',
@@ -78,91 +76,64 @@ feature_names = [
     '73MD', '73BL', '74MD', '74BL', '75MD', '75BL', '81MD', '81BL',
     '82MD', '82BL', '83MD', '83BL', '84MD', '84BL', '85MD', '85BL'
 ]
- # Placeholder: Replace with actual feature names if available or load dynamically
 
-# --- 2. Define the prediction function ---
+# --- Prediction function ---
 def predict_individual_sex(model, individual_features_df):
-    # Ensure the input DataFrame has the correct feature order
     individual_features_df = individual_features_df[feature_names]
     prediction = model.predict(individual_features_df)[0]
-    probability_male = model.predict_proba(individual_features_df)[0][1]  # Probability of class 1 (male)
+    probability_male = model.predict_proba(individual_features_df)[0][1]
     return prediction, probability_male
 
-# --- 3. Streamlit UI ---
+# --- UI ---
 st.markdown("**Enter the tooth dimensions below to estimate sex.**")
 
-# Initialize input dictionary with mean values (or some sensible defaults)
-# For a real app, you might save these means and load them too.
-# For this example, we'll just use 0.0 as a placeholder or you could embed actual means.
-default_values = {feature: 0.0 for feature in feature_names} # Placeholder
-# A more robust solution would load mean_features if saved.
-# For now, let's just make input fields interactive
-
+default_values = {feature: 0.0 for feature in feature_names}
 input_data = {}
-# Create columns for better layout of input fields
-cols = st.columns(4) # Adjust number of columns as needed
 
+cols = st.columns(4)
 for i, feature in enumerate(feature_names):
-    with cols[i % 4]: # Distribute inputs across columns
+    with cols[i % 4]:
         input_data[feature] = st.number_input(
             f'{feature}',
             value=float(default_values[feature]),
             format='%.2f',
-            key=f'input_{feature}' # Unique key for each widget
-        ) 
+            key=f'input_{feature}'
+        )
+
 uploaded_file = st.file_uploader("Upload a CSV file with tooth dimensions", type=["csv"])
 
+# --- CSV upload prediction ---
 if uploaded_file is not None:
     data = pd.read_csv(uploaded_file)
     X_input = data[feature_names]
 
-    st.subheader("Predictions from all models (CSV upload)")
+    prediction = model.predict(X_input)
+    probability = model.predict_proba(X_input)
 
-    results = {}
-    for name, model in models.items():
-        prediction = model.predict(X_input)
-        results[name] = ["Female" if p == 0 else "Male" for p in prediction]
+    st.subheader("CSV Prediction Results")
+    st.write(["Female" if p == 0 else "Male" for p in prediction])
 
-    # Show predictions for each row in the CSV
-    st.dataframe(pd.DataFrame(results))
-
-    # Optional: show probabilities for one model (e.g., Gradient Boosting)
-    probability = models["Gradient Boosting"].predict_proba(X_input)
     prob_df = pd.DataFrame(probability * 100, columns=["Female (%)", "Male (%)"])
-    st.write("Prediction Probability (Gradient Boosting):")
+    st.write("Prediction Probability:")
     st.dataframe(prob_df.round(2))
 
+    certainty = np.max(probability, axis=1)
     st.write("Certainty:")
-    st.markdown(
-        """
-        <div style='display:flex; justify-content:space-between; font-size:14px;'>
-            <span>0%</span><span>100%</span>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
     for c in certainty:
         st.progress(int(c * 100))
 
-# Convert input data to a Pandas DataFrame
+# --- Manual input prediction ---
 individual_df = pd.DataFrame([input_data])
 
-# Prediction button
 if st.button('Predict Sex'):
-    predicted_sex, prob_male = predict_individual_sex(model, individual_df)
-    prob_female = 1 - prob_male
+    prediction = model.predict(individual_df)
+    probability = model.predict_proba(individual_df)
+
+    predicted_sex = prediction[0]
+    prob_male = probability[0][1]
+    prob_female = probability[0][0]
 
     st.subheader('Prediction Results:')
     st.write(f"**Predicted Sex:** {'Male' if predicted_sex == 1 else 'Female'}")
     st.write(f"**Probability of being Male:** {prob_male:.4f}")
-    st.write(f"**Probability of being Female:** {1 - prob_male:.4f}")
-
-# Display predictions from all models
-st.subheader("Predictions from all models")
-
-results = {}
-for name, model in models.items():
-    prediction = model.predict(individual_df)
-    results[name] = "Female" if prediction[0] == 0 else "Male"
-
-st.dataframe(pd.DataFrame(results, index=["Prediction"]).T)
+    st.write(f"**Probability of being Female:** {prob_female:.4f}")
