@@ -59,7 +59,7 @@ def load_model_from_github(url):
     return joblib.load(io.BytesIO(response.content))
 
 model_choice = st.selectbox(
-    "Choose a model for sex estimation:",
+    "**Choose a model for sex estimation:**",
     ["Gradient Boosting", "LightGBM", "CatBoost", "Extra Trees"]
 )
 
