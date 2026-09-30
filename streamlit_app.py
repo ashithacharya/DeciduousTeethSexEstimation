@@ -111,16 +111,27 @@ if uploaded_file is not None:
     probability = model.predict_proba(X_input)
 
     st.subheader("CSV Prediction Results")
-    st.write(["Female" if p == 0 else "Male" for p in prediction])
 
+    # Build probability DataFrame
     prob_df = pd.DataFrame(probability * 100, columns=["Female (%)", "Male (%)"])
+    prob_df.index = [""]  # hides the row index
+
+    # Center align headers and values
+    styled_prob_df = prob_df.round(2).style.set_properties(**{
+        'text-align': 'center'
+    }).set_table_styles([{
+        'selector': 'th',
+        'props': [('text-align', 'center')]
+    }])
+
     st.write("Prediction Probability:")
-    st.dataframe(prob_df.round(2))
+    st.dataframe(styled_prob_df)
 
     certainty = np.max(probability, axis=1)
     st.write("Certainty:")
     for c in certainty:
         st.progress(int(c * 100))
+
 
 # --- Manual input prediction ---
 individual_df = pd.DataFrame([input_data])
