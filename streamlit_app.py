@@ -52,17 +52,14 @@ import joblib
 # --- Model selection ---
 import requests
 import io
+import joblib
 
 @st.cache_resource
 def load_model_from_github(url):
     response = requests.get(url)
     return joblib.load(io.BytesIO(response.content))
 
-model_choice = st.selectbox(
-    "**Choose a model for sex estimation:**",
-    ["Gradient Boosting", "LightGBM", "CatBoost", "Extra Trees"]
-)
-
+# Dictionary of all models
 model_urls = {
     "Gradient Boosting": "https://raw.githubusercontent.com/ashithacharya/DeciduousTeethSexEstimation/main/gradient_boosting_model.pkl",
     "LightGBM": "https://raw.githubusercontent.com/ashithacharya/DeciduousTeethSexEstimation/main/lightgbm_model.pkl",
@@ -70,7 +67,8 @@ model_urls = {
     "Extra Trees": "https://raw.githubusercontent.com/ashithacharya/DeciduousTeethSexEstimation/main/extra_trees_model.pkl"
 }
 
-model = load_model_from_github(model_urls[model_choice])
+# Load all models once
+models = {name: load_model_from_github(url) for name, url in model_urls.items()}
 
 # Assuming model is saved in /content/
 feature_names = [
@@ -152,3 +150,22 @@ if st.button('Predict Sex'):
     st.write(f"**Predicted Sex:** {'Male' if predicted_sex == 1 else 'Female'}")
     st.write(f"**Probability of being Male:** {prob_male:.4f}")
     st.write(f"**Probability of being Female:** {1 - prob_male:.4f}")
+# Prediction button
+if st.button('Predict Sex'):
+    predicted_sex, prob_male = predict_individual_sex(model, individual_df)
+    prob_female = 1 - prob_male
+
+    st.subheader('Prediction Results:')
+    st.write(f"**Predicted Sex:** {'Male' if predicted_sex == 1 else 'Female'}")
+    st.write(f"**Probability of being Male:** {prob_male:.4f}")
+    st.write(f"**Probability of being Female:** {1 - prob_male:.4f}")
+
+# Display predictions from all models
+st.subheader("Predictions from all models")
+
+results = {}
+for name, model in models.items():
+    prediction = model.predict(individual_df)
+    results[name] = "Female" if prediction[0] == 0 else "Male"
+
+st.dataframe(pd.DataFrame(results, index=["Prediction"]).T)
