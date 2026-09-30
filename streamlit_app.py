@@ -100,22 +100,6 @@ for i, feature in enumerate(feature_names):
             key=f'input_{feature}'
         )
 
-# --- Manual input prediction ---
-st.markdown("**Enter the tooth dimensions below to estimate sex.**")
-
-default_values = {feature: 0.0 for feature in feature_names}
-input_data = {}
-
-cols = st.columns(4)
-for i, feature in enumerate(feature_names):
-    with cols[i % 4]:
-        input_data[feature] = st.number_input(
-            f'{feature}',
-            value=float(default_values[feature]),
-            format='%.2f',
-            key=f'input_{feature}'
-        )
-
 individual_df = pd.DataFrame([input_data])
 
 # Manual input prediction button
