@@ -6,20 +6,41 @@ st.title("Deciduous/Primary Tooth Dimension Based Sex Estimation")
 
 # Summary
 st.markdown("""
-Sex estimation from dental metrics offers valuable diagnostic evidence in forensic anthropology when skeletal indicators are missing or fragmented. This study evaluated mesiodistal (MD) and buccolingual (BL) dimensions of the complete primary dentition from 500 children aged 3–5 years (250 males, 250 females) from Southwestern India.  
+### 🧭 Study Overview
+Sex estimation from dental metrics offers valuable diagnostic evidence in forensic anthropology when skeletal indicators are missing or fragmented.  
+This study evaluated mesiodistal (MD) and buccolingual (BL) dimensions of the complete primary dentition from 500 children aged 3–5 years (250 males, 250 females) in Southwestern India.  
 
-Nine supervised machine learning (ML) classifiers were benchmarked against a classical Logistic Regression Analysis (LRA) baseline on an independent held-out test set (n=100). Gradient Boosting emerged as the top classifier for threshold-dependent performance, achieving 62.0% accuracy and a macro F1-score of 0.6144, outperforming the LRA baseline (54.0% accuracy; F1=0.5370) by 8.0 percentage points. CatBoost offered the most balanced overall profile, combining 60.0% accuracy with high discrimination (ROC-AUC = 0.6632) and optimal probability calibration (Brier score = 0.2309).  
-LightGBM maximized class separation (ROC-AUC = 0.6668), whereas Extra Trees yielded the highest precision-recall integration (AUPRC = 0.6785).  
+---
 
-Feature importance consensus highlighted primary tooth dimensions — specifically 81BL, 82MD, 83MD, 71MD, and 54BL — as key predictive drivers. Standalone Decision Trees and Support Vector Machines underperformed relative to the LRA baseline.  
+### ⚙️ Model Performance
+Nine supervised machine learning (ML) classifiers were benchmarked against a classical Logistic Regression Analysis (LRA) baseline on an independent held-out test set (n=100).  
+**Gradient Boosting** emerged as the top classifier for threshold-dependent performance, achieving 62.0% accuracy and a macro F1-score of 0.6144, outperforming the LRA baseline (54.0% accuracy; F1=0.5370) by 8.0 percentage points.  
 
-Overall, primary crown sex difference was low (mean percentage dimorphism = 1.4133%). While non-parametric tree ensembles captured complex non-linear feature interactions to systematically surpass traditional linear biostatistical baselines, peak classification accuracy remained modest (62.0%).  
+**CatBoost** offered the most balanced overall profile, combining 60.0% accuracy with high discrimination (ROC-AUC = 0.6632) and optimal probability calibration (Brier score = 0.2309).  
+**LightGBM** maximized class separation (ROC-AUC = 0.6668), whereas **Extra Trees** yielded the highest precision-recall integration (AUPRC = 0.6785).  
+
+Feature importance consensus highlighted primary tooth dimensions—specifically 81BL, 82MD, 83MD, 71MD, and 54BL—as key predictive drivers.  
+Standalone Decision Trees and Support Vector Machines underperformed relative to the LRA baseline.  
+
+---
+
+### 🧩 Interpretation
+Overall primary crown sex difference was low (mean percentage dimorphism = 1.4133%).  
+While non-parametric tree ensembles captured complex non-linear feature interactions to systematically surpass traditional linear biostatistical baselines, peak classification accuracy remained modest (62.0%).  
 
 Consequently, calliper-derived primary odontometrics provide useful non-linear predictive signals, but should serve as complementary diagnostic evidence rather than standalone primary indicators in forensic sex estimation.  
 
-This interactive webpage allows users to apply primary tooth dimensions (type in the measurements manually, or upload a .csv file containing the 40 MD + BL dimensions) and estimate sex using the aforementioned best ML models on a similar population.
+---
 
-**NOTE:** This tool is intended for forensic and clinical assistance only. Results should be interpreted by qualified forensic dental professionals and/or forensic anthropologists. This tool does not replace expert forensic or clinical judgment. The models are specific to an Indian dataset, having been trained on a Southwestern Indian population of 3-5-year-olds. It has not been validated in other populations, and results should be interpreted with caution outside this demographic context.
+### 💻 Interactive Tool
+This webpage allows users to input deciduous tooth dimensions (manually or via a `.csv` file containing 40 MD and BL dimensions) and estimate sex using the best-performing ML models.  
+
+---
+
+**NOTE:** This tool is intended for forensic and clinical assistance only.  
+Results should be interpreted by qualified forensic dental professionals and/or forensic anthropologists.  
+The models are specific to an Indian dataset (Southwestern Indian population of 3–5-year-olds).  
+They have not been validated in other populations, and results should be interpreted with caution outside this demographic context.
 """)
 
 import pandas as pd
