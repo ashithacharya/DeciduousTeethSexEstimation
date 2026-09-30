@@ -63,7 +63,7 @@ model_urls = {
 
 # Dropdown for selecting one model
 model_choice = st.selectbox(
-    "Choose a model for sex estimation:",
+    "**Choose a model for sex estimation:**",
     list(model_urls.keys())
 )
 model = load_model_from_github(model_urls[model_choice])
