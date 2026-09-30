@@ -70,8 +70,7 @@ def predict_individual_sex(model, individual_features_df):
     return prediction, probability_male
 
 # --- 3. Streamlit UI ---
-st.title("Deciduous Tooth Dimension Based Sex Estimation")
-st.write('Enter the tooth dimensions below to estimate sex (0=Female, 1=Male).')
+st.markdown("**Enter the tooth dimensions below to estimate sex.**")
 
 # Initialize input dictionary with mean values (or some sensible defaults)
 # For a real app, you might save these means and load them too.
