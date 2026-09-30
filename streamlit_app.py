@@ -175,4 +175,5 @@ if st.button("Run Predictions on Demo Dataset", key="demo_predict"):
         "Prob Female (%)": (probability[:,0] * 100).round(1)
     })
 
+    results_df.index = np.arange(1, len(results_df) + 1)  # start index at 1
     st.dataframe(results_df)
