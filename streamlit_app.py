@@ -132,6 +132,23 @@ if uploaded_file is not None:
     for c in certainty:
         st.progress(int(c * 100))
 
+else:
+    # --- Manual input prediction ---
+    individual_df = pd.DataFrame([input_data])
+
+    if st.button('Predict Sex'):
+        prediction = model.predict(individual_df)
+        probability = model.predict_proba(individual_df)
+
+        predicted_sex = prediction[0]
+        prob_male = probability[0][1]
+        prob_female = probability[0][0]
+
+        st.subheader('Prediction Results:')
+        st.write(f"**Predicted Sex:** {'Male' if predicted_sex == 1 else 'Female'}")
+        st.write(f"**Probability of being Male:** {prob_male:.2f}")
+        st.write(f"**Probability of being Female:** {prob_female:.2f}")
+
 # --- Manual input prediction ---
 individual_df = pd.DataFrame([input_data])
 
