@@ -150,15 +150,6 @@ if st.button('Predict Sex'):
     st.write(f"**Predicted Sex:** {'Male' if predicted_sex == 1 else 'Female'}")
     st.write(f"**Probability of being Male:** {prob_male:.4f}")
     st.write(f"**Probability of being Female:** {1 - prob_male:.4f}")
-# Prediction button
-if st.button('Predict Sex'):
-    predicted_sex, prob_male = predict_individual_sex(model, individual_df)
-    prob_female = 1 - prob_male
-
-    st.subheader('Prediction Results:')
-    st.write(f"**Predicted Sex:** {'Male' if predicted_sex == 1 else 'Female'}")
-    st.write(f"**Probability of being Male:** {prob_male:.4f}")
-    st.write(f"**Probability of being Female:** {1 - prob_male:.4f}")
 
 # Display predictions from all models
 st.subheader("Predictions from all models")
